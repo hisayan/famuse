@@ -32,8 +32,8 @@ token below and delete the bootstrap one.
 Repository → Settings → Secrets and variables → Actions:
 
 - Secrets: `CLOUDFLARE_API_TOKEN` (required).
-- Variables: `CLOUDFLARE_WORKERS_SUBDOMAIN` (only when the Worker has no
-  version preview URL; use `my-team` or `my-team.workers.dev`).
+- Variables: `CLOUDFLARE_WORKERS_SUBDOMAIN` (required: deploy refuses
+  without it when a Worker Version has no preview URL; ours is `a10n`).
 - Not needed here: `DATABASE_URL` (SQLite/D1 only), `CF_ACCESS_*` (no
   Cloudflare Access in front of the app).
 - Add `CLOUDFLARE_ACCOUNT_ID` only when the token can access several

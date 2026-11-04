@@ -1,8 +1,18 @@
 # famuse 🏡
 
-**famuse** (Family + Muse) is an open-source, edge-native, AI-first private family collaboration hub. Each family channel is a real-time room backed by its own hibernating Cloudflare Durable Object, and **@famuse** — a polite, proactive household butler — answers through the **Meta Model API** (Muse Spark).
+**famuse** (Family + Muse — made for family *use*) is an open-source, edge-native, AI-first private family collaboration hub. Each family channel is a real-time room backed by its own hibernating Cloudflare Durable Object, and **@famuse** — a polite, proactive household butler — answers through the **Meta Model API** (Muse Spark).
 
 Built for the [Meta Global AI Developer Hackathon](https://dev.meta.ai/events/global-hackathon).
+
+**Live demo:** https://famuse.a10n.workers.dev — open it and choose **Continue as Dad** (no signup needed).
+
+**Demo video:** [famuse — When Muse Joins Your Family](https://youtu.be/3SXRY-c3ze8) (2 min)
+
+<a href="https://youtu.be/3SXRY-c3ze8"><img src="https://img.youtube.com/vi/3SXRY-c3ze8/maxresdefault.jpg" width="640" alt="famuse demo video — When Muse Joins Your Family"></a>
+
+![famuse on desktop](docs/images/desktop.png)
+
+<img src="docs/images/mobile-drawer.png" width="240" alt="famuse navigation drawer on mobile">
 
 ## Features
 
@@ -10,7 +20,8 @@ Built for the [Meta Global AI Developer Hackathon](https://dev.meta.ai/events/gl
 - **@famuse AI butler** — Mention `@famuse` for dinner ideas, pet status, or household help. One click on **Catch Me Up** summarizes anything you missed.
 - **Plugin system** — Family domains hook into prompts, room state, and quick-action chips through one `FamilyPlugin` interface. Ships with **Pet Care**: Buddy the Golden Retriever's walks, meals, and potty breaks with overdue alerts.
 - **Household context drawer** — Live pet status, the pinned @famuse recipe, and checkable household tasks.
-- **Photo sharing** — Image uploads stored in Cloudflare R2 and rendered inline.
+- **Photo sharing** — Image uploads stored in Cloudflare R2, rendered inline, click to enlarge in a fullscreen viewer.
+- **Mobile-ready** — Slide-in navigation and household drawers, touch-sized targets, safe-area-aware composer.
 - **Family auth** — Better Auth (managed by Void) with email/password, a seeded roster (Admins: Mom & Dad, Member: Leo), and one-click demo sign-in.
 - **Offline-capable demo** — Without a Meta API key, a built-in local assistant answers from real room data so every flow still works.
 
@@ -42,7 +53,7 @@ Without a key, famuse answers with its built-in local assistant. With a key, rep
 2. Ask `@famuse any lunch ideas with eggs and cheese?` and watch the butler reply.
 3. Tap the **🐾 Walked Buddy** chip — the walk is logged and the pet card updates.
 4. Press **Catch Me Up** for an instant digest.
-5. Attach a photo with the image button, then check a task in the right drawer.
+5. Attach a photo with the image button, click it to enlarge, then check a task in the right drawer.
 
 ## Architecture
 
@@ -129,8 +140,9 @@ pnpm run test:e2e       # Playwright smoke tests
 ## Testing
 
 A small Playwright smoke suite covers demo sign-in, real-time messaging
-between two members, household task toggling, and the phone layout
-(slide-in navigation/household drawers, mobile composer):
+between two members, household task toggling, the ask-famuse chip, and
+the phone layout (slide-in navigation/household drawers, mobile
+composer):
 
 ```sh
 pnpm exec playwright install --with-deps chromium  # first time only
