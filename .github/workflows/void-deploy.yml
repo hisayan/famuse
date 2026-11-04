@@ -21,6 +21,10 @@ jobs:
           node-version: lts/*
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Install OS keyring backend
+        # Void forces keyring mode for its Cloudflare calls; without
+        # secret-tool they fail even with a valid CLOUDFLARE_API_TOKEN.
+        run: sudo apt-get update && sudo apt-get install -y libsecret-tools
       - name: Deploy
         env:
           # Add this scoped token at Settings → Secrets and variables → Actions.

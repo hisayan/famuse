@@ -106,7 +106,12 @@ token periodically; Cloudflare tokens support expiry (TTL).
 ## Troubleshooting
 
 - `Cloudflare authentication is required` → `CLOUDFLARE_API_TOKEN` is
-  missing or expired.
+  missing or expired. On Linux without `libsecret`, this error (or a
+  `secret-tool` message) also appears even with a valid token: Void
+  forces keyring mode for its Cloudflare calls, and they fail when the
+  `secret-tool` binary is absent. Install it
+  (`sudo apt-get install libsecret-tools` on Debian/Ubuntu), then retry.
+  The CI workflow installs it automatically.
 - Lock-file conflicts → deploy from one machine at a time; commit
   `void.lock.json` before deploying elsewhere or from CI.
 - Deploy stops on migration history mismatch → regenerate with
