@@ -104,7 +104,21 @@ pnpm run dev            # local dev server (listens on 0.0.0.0)
 pnpm exec void db seed  # re-seed the demo household
 pnpm exec void db studio  # inspect local D1
 pnpm run build          # production build
+pnpm run test:e2e       # Playwright smoke tests
 ```
+
+## Testing
+
+A small Playwright smoke suite covers demo sign-in, real-time messaging
+between two members, and household task toggling:
+
+```sh
+pnpm exec playwright install --with-deps chromium  # first time only
+pnpm run test:e2e
+```
+
+See [docs/testing.md](docs/testing.md) for the testing strategy, CI setup,
+and troubleshooting.
 
 ## Deploy
 
