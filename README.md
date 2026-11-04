@@ -142,11 +142,15 @@ and troubleshooting.
 
 ## Deploy
 
-```sh
-pnpm exec void deploy --platform cloudflare
-```
+famuse deploys to Cloudflare Workers with `void deploy`, plus automatic
+deploys from CI on every push to `main`. See
+[docs/deploy.md](docs/deploy.md) for the full procedure: API token setup,
+first deploy, secret management, and narrowing the CI token after
+bootstrap.
 
-Commit the generated `void.lock.json` and `db/migrations/` before deploying. Set `MODEL_API_KEY` with `void secret put MODEL_API_KEY`.
+```sh
+pnpm exec void deploy --platform cloudflare   # first deploy from your machine
+```
 
 ## License
 
