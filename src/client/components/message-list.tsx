@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Bot } from 'lucide-react';
 import type { Attachment, ChatMessage } from '../../shared/types';
 import { formatClockTime } from '../../shared/format';
@@ -6,28 +6,42 @@ import { cn } from '../lib/cn';
 import type { TypingPeer } from '../hooks/use-room';
 import { Avatar, Badge } from './ui';
 import { Markdown } from './markdown';
+import { Lightbox } from './lightbox';
 
 function Attachments({ items }: { items: Attachment[] }) {
+  const [lightbox, setLightbox] = useState<Attachment | null>(null);
   if (items.length === 0) return null;
   return (
-    <div className="mt-2 flex flex-wrap gap-2">
-      {items.map((item) => (
-        <a
-          key={item.key}
-          href={item.url}
-          target="_blank"
-          rel="noreferrer"
-          title={item.name}
-          className="overflow-hidden rounded-lg border border-stone-200 dark:border-stone-700"
-        >
-          {item.contentType.startsWith('image/') ? (
-            <img src={item.url} alt={item.name} className="max-h-48 max-w-full object-cover" loading="lazy" />
+    <>
+      <div className="mt-2 flex flex-wrap gap-2">
+        {items.map((item) =>
+          item.contentType.startsWith('image/') ? (
+            <button
+              key={item.key}
+              type="button"
+              onClick={() => setLightbox(item)}
+              title={`Enlarge ${item.name}`}
+              aria-label={`Enlarge image ${item.name}`}
+              className="cursor-zoom-in overflow-hidden rounded-lg border border-stone-200 transition-shadow hover:shadow-md dark:border-stone-700"
+            >
+              <img src={item.url} alt={item.name} className="max-h-48 max-w-full object-cover" loading="lazy" />
+            </button>
           ) : (
-            <span className="block px-3 py-2 text-[13px] underline">{item.name}</span>
-          )}
-        </a>
-      ))}
-    </div>
+            <a
+              key={item.key}
+              href={item.url}
+              target="_blank"
+              rel="noreferrer"
+              title={item.name}
+              className="overflow-hidden rounded-lg border border-stone-200 dark:border-stone-700"
+            >
+              <span className="block px-3 py-2 text-[13px] underline">{item.name}</span>
+            </a>
+          ),
+        )}
+      </div>
+      {lightbox && <Lightbox attachment={lightbox} onClose={() => setLightbox(null)} />}
+    </>
   );
 }
 
