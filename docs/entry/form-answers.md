@@ -44,6 +44,8 @@ https://youtu.be/3SXRY-c3ze8
 
 ## Describe your use of Meta products（必須）
 
+This was completed in just 6 hours. Muse Code is absolutely incredible.
+
 @famuse is powered by Muse Spark (muse-spark-1.3) through the Meta Model API's
 OpenAI-compatible chat/completions endpoint, called directly from Cloudflare
 Workers. We tuned it for family chat with reasoning_effort: low and a measured
