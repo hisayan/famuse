@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "source": {
+    "name": "famuse"
+  },
+  "resolved": {
+    "name": "famuse",
+    "durable_objects": {
+      "bindings": [
+        {
+          "name": "FamilyRoomWs",
+          "class_name": "FamilyRoomWs"
+        }
+      ]
+    },
+    "migrations": [
+      {
+        "tag": "void-ws-v1",
+        "new_sqlite_classes": [
+          "FamilyRoomWs"
+        ]
+      }
+    ]
+  },
+  "text": "{\n  \"name\": \"famuse\",\n  \"durable_objects\": {\n    \"bindings\": [\n      {\n        \"name\": \"FamilyRoomWs\",\n        \"class_name\": \"FamilyRoomWs\"\n      }\n    ]\n  },\n  \"migrations\": [\n    {\n      \"tag\": \"void-ws-v1\",\n      \"new_sqlite_classes\": [\n        \"FamilyRoomWs\"\n      ]\n    }\n  ]\n}\n"
+}
