@@ -23,7 +23,7 @@
     "preview": "vp preview",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "postinstall": "void prepare"
+    "postinstall": "node scripts/ensure-void-tsconfig.mjs && void prepare"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
