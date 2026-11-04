@@ -4,7 +4,7 @@
 
 Built for the [Meta Global AI Developer Hackathon](https://dev.meta.ai/events/global-hackathon).
 
-**Live demo:** https://famuse.a10n.workers.dev — open it and choose **Continue as Dad** (no signup needed).
+**Live demo:** https://famuse.a10n.workers.dev — open it and choose **Continue as Dad** (no signup needed). Demo data resets hourly.
 
 **Demo video:** [famuse — When Muse Joins Your Family](https://youtu.be/3SXRY-c3ze8) (2 min)
 
