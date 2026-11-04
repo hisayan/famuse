@@ -119,7 +119,13 @@ export function MessageList({
   }
 
   return (
-    <div ref={scrollRef} onScroll={handleScroll} className="min-h-0 flex-1 overflow-y-auto px-3 py-4 sm:px-5">
+    <div
+      ref={scrollRef}
+      onScroll={handleScroll}
+      role="log"
+      aria-label="Messages"
+      className="min-h-0 flex-1 overflow-y-auto px-3 py-4 sm:px-5"
+    >
       {messages.length === 0 ? (
         <div className="flex h-full flex-col items-center justify-center gap-2 text-center">
           <p className="text-sm font-medium">Nothing here yet.</p>

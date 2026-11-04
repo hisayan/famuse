@@ -19,6 +19,12 @@ export interface ModelChatTurn {
 export interface ModelChatOptions {
   temperature?: number;
   maxTokens?: number;
+  /**
+   * Reasoning budget hint (e.g. 'low'). Muse Spark burns hundreds of
+   * completion tokens on hidden reasoning per call; without room for it
+   * the API returns `content: null` with `finish_reason: 'length'`.
+   */
+  reasoningEffort?: string;
 }
 
 interface ChatCompletionsResponse {
@@ -49,7 +55,8 @@ export class MetaModelClient {
         model: this.config.model,
         messages,
         temperature: options.temperature ?? 0.7,
-        max_tokens: options.maxTokens ?? 800,
+        max_tokens: options.maxTokens ?? 2000,
+        ...(options.reasoningEffort ? { reasoning_effort: options.reasoningEffort } : {}),
       }),
       signal: AbortSignal.timeout(this.config.timeoutMs),
     });

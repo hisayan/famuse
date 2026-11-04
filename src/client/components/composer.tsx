@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AtSign, ImagePlus, Loader2, Send, X } from 'lucide-react';
 import type { Attachment } from '../../shared/types';
 import { MAX_ATTACHMENT_BYTES } from '../../shared/room-events';
@@ -14,16 +14,23 @@ interface PendingUpload {
   previewUrl: string;
 }
 
+export interface ComposerInsertRequest {
+  text: string;
+  nonce: number;
+}
+
 export function Composer({
   channelName,
   disabled,
   onSend,
   onTyping,
+  insertRequest,
 }: {
   channelName: string;
   disabled: boolean;
   onSend: (text: string, attachments: Attachment[]) => void;
   onTyping: (typing: boolean) => void;
+  insertRequest?: ComposerInsertRequest | null;
 }) {
   const [value, setValue] = useState('');
   const [attachments, setAttachments] = useState<Attachment[]>([]);
@@ -32,6 +39,13 @@ export function Composer({
   const [mentionOpen, setMentionOpen] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const lastInsertNonce = useRef(0);
+
+  useEffect(() => {
+    if (!insertRequest || insertRequest.nonce === lastInsertNonce.current) return;
+    lastInsertNonce.current = insertRequest.nonce;
+    insertText(insertRequest.text);
+  }, [insertRequest]);
 
   function autoresize() {
     const node = textareaRef.current;
@@ -54,6 +68,24 @@ export function Composer({
     onTyping(next.trim().length > 0);
     const mention = caretMention(next, event.target.selectionStart ?? next.length);
     setMentionOpen(mention !== null && 'famuse'.startsWith(mention.query.toLowerCase()));
+  }
+
+  function insertText(text: string) {
+    const node = textareaRef.current;
+    const caret = node?.selectionStart ?? value.length;
+    const mention = text.startsWith('@') ? caretMention(value, caret) : null;
+    const start = mention ? mention.start : caret;
+    const next = `${value.slice(0, start)}${text}${value.slice(caret)}`;
+    setValue(next);
+    setMentionOpen(false);
+    onTyping(next.trim().length > 0);
+    requestAnimationFrame(() => {
+      if (!node) return;
+      node.focus();
+      const pos = start + text.length;
+      node.setSelectionRange(pos, pos);
+      autoresize();
+    });
   }
 
   function insertMention() {

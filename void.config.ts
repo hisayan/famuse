@@ -9,6 +9,7 @@ export default defineConfig({
   },
   cloudflare: {
     name: 'famuse',
+    account_id: '2700f41fbc8305c6c963e2aac1fffde8',
   },
   head: {
     title: 'famuse — Private Family Hub',

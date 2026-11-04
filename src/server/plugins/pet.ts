@@ -179,18 +179,21 @@ export const petPlugin: FamilyPlugin = {
       label: '🐾 Walked Buddy',
       iconName: 'paw',
       actionText: '@famuse Buddy just had a 20-minute walk around the block.',
+      behavior: 'send',
     },
     {
       id: 'pet-fed',
       label: '🍖 Fed Buddy',
       iconName: 'bone',
       actionText: '@famuse Buddy ate his evening kibble.',
+      behavior: 'send',
     },
     {
       id: 'pet-potty',
       label: '🌱 Potty Break',
       iconName: 'sprout',
       actionText: '@famuse Buddy took a quick potty break outside.',
+      behavior: 'send',
     },
   ],
 

@@ -46,11 +46,14 @@ export async function generateAssistantReply(request: AssistantRequest): Promise
   }
   try {
     const client = new MetaModelClient(config);
-    const text = await client.chat([
-      { role: 'system', content: request.systemPrompt },
-      ...historyToTurns(request.history),
-      { role: 'user', content: request.userText },
-    ]);
+    const text = await client.chat(
+      [
+        { role: 'system', content: request.systemPrompt },
+        ...historyToTurns(request.history),
+        { role: 'user', content: request.userText },
+      ],
+      { reasoningEffort: 'low' },
+    );
     return { text, source: 'meta-model-api' };
   } catch (error) {
     console.error('[famuse] Meta Model API call failed, using local assistant.', error);
@@ -83,7 +86,7 @@ export async function generateCatchUp(request: CatchUpRequest): Promise<Assistan
           content: `Summarize this ${request.householdName} chat so I can catch up:\n\n${transcript}`,
         },
       ],
-      { maxTokens: 600 },
+      { maxTokens: 2000, reasoningEffort: 'low' },
     );
     return { text, source: 'meta-model-api' };
   } catch (error) {

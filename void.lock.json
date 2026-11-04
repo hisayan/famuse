@@ -1,7 +1,8 @@
 {
   "version": 1,
   "source": {
-    "name": "famuse"
+    "name": "famuse",
+    "account_id": "2700f41fbc8305c6c963e2aac1fffde8"
   },
   "resolved": {
     "name": "famuse",
@@ -20,7 +21,8 @@
           "FamilyRoomWs"
         ]
       }
-    ]
+    ],
+    "account_id": "2700f41fbc8305c6c963e2aac1fffde8"
   },
-  "text": "{\n  \"name\": \"famuse\",\n  \"durable_objects\": {\n    \"bindings\": [\n      {\n        \"name\": \"FamilyRoomWs\",\n        \"class_name\": \"FamilyRoomWs\"\n      }\n    ]\n  },\n  \"migrations\": [\n    {\n      \"tag\": \"void-ws-v1\",\n      \"new_sqlite_classes\": [\n        \"FamilyRoomWs\"\n      ]\n    }\n  ]\n}\n"
+  "text": "{\n  \"name\": \"famuse\",\n  \"durable_objects\": {\n    \"bindings\": [\n      {\n        \"name\": \"FamilyRoomWs\",\n        \"class_name\": \"FamilyRoomWs\"\n      }\n    ]\n  },\n  \"migrations\": [\n    {\n      \"tag\": \"void-ws-v1\",\n      \"new_sqlite_classes\": [\n        \"FamilyRoomWs\"\n      ]\n    }\n  ],\n  \"account_id\": \"2700f41fbc8305c6c963e2aac1fffde8\"\n}\n"
 }

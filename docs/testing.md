@@ -8,7 +8,7 @@ This page is the single source of truth for how tests are organized and run.
 
 | Layer | Tool | What it covers | Status |
 | --- | --- | --- | --- |
-| E2E smoke | Playwright (Chromium) | Demo sign-in, real-time messaging between two members, household task toggling, mobile drawers + composer | Active — `e2e/smoke.spec.ts`, `e2e/mobile.spec.ts` |
+| E2E smoke | Playwright (Chromium) | Demo sign-in, real-time messaging between two members, household task toggling, mobile drawers + composer, ask-famuse chip insert | Active — `e2e/smoke.spec.ts`, `e2e/mobile.spec.ts` |
 | Unit | Vitest | Pure logic such as `src/shared/format.ts` | Not set up yet; add only when a pure function gains non-trivial branching |
 | Full E2E coverage | — | Plugins, uploads, AI replies, every channel | Deliberately out of scope: slow and brittle for the value returned |
 
@@ -69,6 +69,10 @@ Notes:
 
 Drawer open/closed is asserted by bounding-rect position, not visibility:
 off-canvas panels still count as "visible" to Playwright.
+
+7. **Ask famuse chip inserts a mention instead of sending** — clicking
+   `✨ Ask famuse` fills the composer with `@famuse ` and posts nothing
+   (pet chips keep their send-immediately behavior).
 
 Shared sign-in and live-room waits live in `e2e/helpers.ts`
 (`signInAsDemo`, `waitForLiveRoom`, `sendMessage`). Reuse them instead of

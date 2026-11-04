@@ -16,6 +16,7 @@ export const ASK_FAMUSE_ACTION: PluginQuickAction = {
   label: '✨ Ask famuse',
   iconName: 'sparkles',
   actionText: '@famuse ',
+  behavior: 'insert',
 };
 
 export function pluginsForChannel(channelId: string): FamilyPlugin[] {

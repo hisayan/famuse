@@ -3,6 +3,11 @@ export interface PluginQuickAction {
   label: string;
   iconName: string;
   actionText: string;
+  /**
+   * Chip behavior: 'send' posts actionText immediately (complete
+   * commands), 'insert' drops it into the composer for editing.
+   */
+  behavior: 'send' | 'insert';
 }
 
 export interface PluginStateMutation {

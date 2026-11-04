@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react';
 import { Hash, Loader2, Menu, Newspaper, PanelRight, Users, X } from 'lucide-react';
 import { getChannel } from '../../shared/channels';
 import type { Attachment, ChatMessage, ConnectionStatus } from '../../shared/types';
@@ -6,7 +7,7 @@ import type { TypingPeer } from '../hooks/use-room';
 import { Badge, Button } from './ui';
 import { Markdown } from './markdown';
 import { MessageList } from './message-list';
-import { Composer } from './composer';
+import { Composer, type ComposerInsertRequest } from './composer';
 
 export function ChannelView({
   channelId,
@@ -49,6 +50,17 @@ export function ChannelView({
 }) {
   const channel = getChannel(channelId);
   const connected = status === 'live';
+  const [insertRequest, setInsertRequest] = useState<ComposerInsertRequest | null>(null);
+  const insertNonce = useRef(0);
+
+  function handleChipClick(action: RoomQuickAction) {
+    if (action.behavior === 'insert') {
+      insertNonce.current += 1;
+      setInsertRequest({ text: action.actionText, nonce: insertNonce.current });
+      return;
+    }
+    onQuickAction(action);
+  }
 
   return (
     <section aria-label="Conversation" className="flex h-full min-w-0 flex-1 flex-col bg-stone-50 dark:bg-stone-950">
@@ -160,7 +172,7 @@ export function ChannelView({
               <button
                 key={action.id}
                 type="button"
-                onClick={() => onQuickAction(action)}
+                onClick={() => handleChipClick(action)}
                 disabled={!connected}
                 title={action.actionText}
                 className="shrink-0 rounded-full border border-stone-300 bg-white px-3 py-2 text-[13px] font-medium text-stone-700 sm:py-1.5 shadow-sm transition-colors hover:border-emerald-600 hover:text-emerald-800 disabled:opacity-50 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:hover:border-emerald-500 dark:hover:text-emerald-300"
@@ -177,6 +189,7 @@ export function ChannelView({
         disabled={!connected}
         onSend={onSend}
         onTyping={onTyping}
+        insertRequest={insertRequest}
       />
     </section>
   );

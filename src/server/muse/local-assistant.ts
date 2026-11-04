@@ -75,7 +75,7 @@ export function localAssistantReply(context: LocalAssistantContext): string {
 
   const lastHuman = [...context.recentMessages].reverse().find((message) => !message.isAi);
   if (lastHuman) {
-    return `Got it — noted for the ${context.householdName}. If you need dinner ideas, Buddy's status, or a quick catch-up, just ask me with **@famuse**.`;
+    return `Got it — noted for ${context.householdName}. If you need dinner ideas, Buddy's status, or a quick catch-up, just ask me with **@famuse**.`;
   }
   return `Hello! I'm **famuse**, your household butler. Mention me with **@famuse** any time you need dinner ideas, Buddy's status, or a quick catch-up.`;
 }
@@ -86,7 +86,7 @@ export function localCatchUp(
   householdName: string,
 ): string {
   if (history.length === 0) {
-    return `Welcome to the ${householdName}! No messages yet — say hello and I'll keep track of everything from here. 👋`;
+    return `Welcome to ${householdName}! No messages yet — say hello and I'll keep track of everything from here. 👋`;
   }
   const lines = history.slice(-8).map((message) => {
     const who = message.isAi ? 'famuse (AI Butler)' : message.senderName;
@@ -99,5 +99,5 @@ export function localCatchUp(
       ? '\nThere is at least one open question above — worth a reply before dinner. 🍳'
       : '\nNothing urgent pending. The hearth is calm. 🏡',
   );
-  return `📰 **Catch-up for the ${householdName}:**\n\n${lines.join('\n')}`;
+  return `📰 **Catch-up for ${householdName}:**\n\n${lines.join('\n')}`;
 }

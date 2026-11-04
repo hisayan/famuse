@@ -28,6 +28,7 @@ export const QuickActionSchema = z.object({
   label: z.string().min(1).max(100),
   iconName: z.string().min(1).max(100),
   actionText: z.string().min(1).max(MAX_MESSAGE_LENGTH),
+  behavior: z.enum(['send', 'insert']),
 });
 
 const ContextSummariesSchema = z.record(z.string(), z.unknown());

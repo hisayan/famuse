@@ -37,6 +37,24 @@ test.describe('famuse smoke', () => {
     }
   });
 
+  test('ask famuse chip inserts a mention instead of sending', async ({ page }) => {
+    await signInAsDemo(page, 'Dad');
+    await waitForLiveRoom(page);
+
+    const log = page.getByRole('log', { name: 'Messages' });
+    const before = await log.textContent();
+
+    await page
+      .getByRole('toolbar', { name: 'Quick actions' })
+      .getByRole('button', { name: '✨ Ask famuse' })
+      .click();
+
+    // The mention lands in the composer for editing…
+    await expect(page.getByLabel(/Message #/)).toHaveValue('@famuse ');
+    // …and nothing is posted.
+    await expect.poll(async () => log.textContent()).toBe(before);
+  });
+
   test('a household task can be checked off and restored', async ({ page }) => {
     await signInAsDemo(page, 'Dad');
     await waitForLiveRoom(page);
