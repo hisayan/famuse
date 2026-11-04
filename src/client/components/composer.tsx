@@ -142,7 +142,7 @@ export function Composer({
   }
 
   return (
-    <div className="px-5 pb-4">
+    <div className="px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-5 sm:pb-4">
       <div className="mx-auto max-w-3xl rounded-xl border border-stone-300 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.05)] focus-within:border-stone-500 dark:border-stone-700 dark:bg-stone-900 dark:focus-within:border-stone-400">
         {(attachments.length > 0 || uploads.length > 0) && (
           <div className="flex flex-wrap gap-2 px-3 pt-3">
@@ -190,7 +190,7 @@ export function Composer({
             maxLength={2000}
             aria-label={`Message #${channelName}`}
             className={cn(
-              'max-h-40 w-full resize-none bg-transparent px-3.5 pb-1 pt-2.5 text-sm leading-6 outline-none placeholder:text-stone-400 dark:placeholder:text-stone-500',
+              'max-h-40 w-full resize-none bg-transparent px-3.5 pb-1 pt-2.5 text-base leading-6 outline-none placeholder:text-stone-400 sm:text-sm dark:placeholder:text-stone-500',
               disabled && 'opacity-60',
             )}
           />
@@ -232,6 +232,7 @@ export function Composer({
               aria-label="Attach a photo"
               disabled={disabled}
               onClick={() => fileRef.current?.click()}
+              className="size-10 sm:size-8"
             >
               <ImagePlus />
             </Button>
@@ -242,11 +243,19 @@ export function Composer({
               aria-label="Mention famuse"
               disabled={disabled}
               onClick={insertMention}
+              className="size-10 sm:size-8"
             >
               <AtSign />
             </Button>
           </div>
-          <Button variant="default" size="sm" disabled={disabled} onClick={handleSend} aria-label="Send message">
+          <Button
+            variant="default"
+            size="sm"
+            disabled={disabled}
+            onClick={handleSend}
+            aria-label="Send message"
+            className="h-10 px-4 sm:h-8"
+          >
             <Send /> Send
           </Button>
         </div>

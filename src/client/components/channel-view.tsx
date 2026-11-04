@@ -1,4 +1,4 @@
-import { Hash, Loader2, Newspaper, Users, X } from 'lucide-react';
+import { Hash, Loader2, Menu, Newspaper, PanelRight, Users, X } from 'lucide-react';
 import { getChannel } from '../../shared/channels';
 import type { Attachment, ChatMessage, ConnectionStatus } from '../../shared/types';
 import type { RoomQuickAction } from '../../shared/room-events';
@@ -25,6 +25,8 @@ export function ChannelView({
   onRequestCatchUp,
   onDismissCatchUp,
   onDismissError,
+  onOpenNav,
+  onOpenContext,
 }: {
   channelId: string;
   status: ConnectionStatus;
@@ -42,24 +44,37 @@ export function ChannelView({
   onRequestCatchUp: () => void;
   onDismissCatchUp: () => void;
   onDismissError: () => void;
+  onOpenNav: () => void;
+  onOpenContext: () => void;
 }) {
   const channel = getChannel(channelId);
   const connected = status === 'live';
 
   return (
     <section aria-label="Conversation" className="flex h-full min-w-0 flex-1 flex-col bg-stone-50 dark:bg-stone-950">
-      <header className="flex shrink-0 items-center justify-between gap-3 border-b border-stone-200 bg-white px-5 py-3 dark:border-stone-800 dark:bg-stone-900">
-        <div className="min-w-0">
-          <h2 className="flex items-center gap-1.5 text-[15px] font-semibold tracking-tight">
-            <Hash className="size-4 text-stone-400" />
-            {channel?.name ?? channelId}
-          </h2>
-          <p className="truncate text-[13px] text-stone-500 dark:text-stone-400">
-            {channel?.description}
-          </p>
+      <header className="flex shrink-0 items-center justify-between gap-2 border-b border-stone-200 bg-white px-3 py-2.5 sm:gap-3 sm:px-5 sm:py-3 dark:border-stone-800 dark:bg-stone-900">
+        <div className="flex min-w-0 items-center gap-1.5 sm:gap-2">
+          <Button
+            variant="ghost"
+            size="iconSm"
+            onClick={onOpenNav}
+            aria-label="Open navigation"
+            className="size-10 shrink-0 lg:hidden"
+          >
+            <Menu />
+          </Button>
+          <div className="min-w-0">
+            <h2 className="flex items-center gap-1.5 text-[15px] font-semibold tracking-tight">
+              <Hash className="size-4 shrink-0 text-stone-400" />
+              <span className="truncate">{channel?.name ?? channelId}</span>
+            </h2>
+            <p className="hidden truncate text-[13px] text-stone-500 min-[420px]:block dark:text-stone-400">
+              {channel?.description}
+            </p>
+          </div>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
-          <Badge variant="outline" title="Members currently online">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+          <Badge variant="outline" title="Members currently online" className="hidden sm:inline-flex">
             <Users /> {onlineCount} online
           </Badge>
           <Button
@@ -68,15 +83,26 @@ export function ChannelView({
             onClick={onRequestCatchUp}
             disabled={!connected || catchUpPending}
             title="Ask famuse to summarize recent messages"
+            className="h-10 px-3 sm:h-8"
           >
             {catchUpPending ? <Loader2 className="animate-spin" /> : <Newspaper />}
-            Catch Me Up
+            <span className="hidden min-[420px]:inline">Catch Me Up</span>
+            <span className="min-[420px]:hidden">Catch Up</span>
+          </Button>
+          <Button
+            variant="ghost"
+            size="iconSm"
+            onClick={onOpenContext}
+            aria-label="Open household panel"
+            className="size-10 shrink-0 xl:hidden"
+          >
+            <PanelRight />
           </Button>
         </div>
       </header>
 
       {error && (
-        <div className="shrink-0 px-5 pt-3">
+        <div className="shrink-0 px-3 pt-3 sm:px-5">
           <div
             role="alert"
             className="mx-auto flex max-w-3xl items-start justify-between gap-3 rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-[13px] text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200"
@@ -95,7 +121,7 @@ export function ChannelView({
       )}
 
       {(catchUpPending || catchUp) && (
-        <div className="shrink-0 px-5 pt-3">
+        <div className="shrink-0 px-3 pt-3 sm:px-5">
           <div className="mx-auto max-w-3xl rounded-xl border border-emerald-600/25 bg-white px-4 py-3 shadow-sm dark:border-emerald-500/20 dark:bg-stone-900">
             <div className="flex items-center justify-between gap-2">
               <p className="flex items-center gap-1.5 text-[13px] font-semibold text-emerald-800 dark:text-emerald-300">
@@ -128,7 +154,7 @@ export function ChannelView({
       <MessageList messages={messages} pendingIds={pendingIds} typing={typing} />
 
       {quickActions.length > 0 && (
-        <div className="shrink-0 px-5 pb-1">
+        <div className="shrink-0 px-3 pb-1 sm:px-5">
           <div className="mx-auto flex max-w-3xl gap-2 overflow-x-auto py-2" role="toolbar" aria-label="Quick actions">
             {quickActions.map((action) => (
               <button
@@ -137,7 +163,7 @@ export function ChannelView({
                 onClick={() => onQuickAction(action)}
                 disabled={!connected}
                 title={action.actionText}
-                className="shrink-0 rounded-full border border-stone-300 bg-white px-3 py-1.5 text-[13px] font-medium text-stone-700 shadow-sm transition-colors hover:border-emerald-600 hover:text-emerald-800 disabled:opacity-50 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:hover:border-emerald-500 dark:hover:text-emerald-300"
+                className="shrink-0 rounded-full border border-stone-300 bg-white px-3 py-2 text-[13px] font-medium text-stone-700 sm:py-1.5 shadow-sm transition-colors hover:border-emerald-600 hover:text-emerald-800 disabled:opacity-50 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:hover:border-emerald-500 dark:hover:text-emerald-300"
               >
                 {action.label}
               </button>

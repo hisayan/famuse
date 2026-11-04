@@ -1,4 +1,4 @@
-import { Bot, Hash, Home, Loader2, LogOut, Wifi, WifiOff } from 'lucide-react';
+import { Bot, Hash, Home, Loader2, LogOut, Wifi, WifiOff, X } from 'lucide-react';
 import { CHANNELS } from '../../shared/channels';
 import type { ConnectionStatus, Household, HouseholdMember } from '../../shared/types';
 import { cn } from '../lib/cn';
@@ -41,6 +41,8 @@ export function Sidebar({
   user,
   onSignOut,
   signingOut,
+  mobileOpen = false,
+  onCloseMobile,
 }: {
   household: Household;
   members: HouseholdMember[];
@@ -51,9 +53,17 @@ export function Sidebar({
   user: SidebarUser;
   onSignOut: () => void;
   signingOut: boolean;
+  mobileOpen?: boolean;
+  onCloseMobile?: () => void;
 }) {
   return (
-    <aside className="flex h-full w-64 shrink-0 flex-col border-r border-stone-200 bg-white dark:border-stone-800 dark:bg-stone-900">
+    <aside
+      aria-label="Household navigation"
+      className={cn(
+        'fixed inset-y-0 left-0 z-40 flex h-full w-[86vw] max-w-72 shrink-0 flex-col border-r border-stone-200 bg-white shadow-xl transition-transform duration-200 lg:static lg:z-auto lg:w-64 lg:max-w-none lg:translate-x-0 lg:shadow-none dark:border-stone-800 dark:bg-stone-900',
+        mobileOpen ? 'translate-x-0' : '-translate-x-full',
+      )}
+    >
       <div className="flex items-center justify-between gap-2 px-4 pb-3 pt-4">
         <div className="flex min-w-0 items-center gap-2">
           <Home className="size-4 shrink-0 text-stone-500" />
@@ -61,6 +71,15 @@ export function Sidebar({
             {household.name} <span aria-hidden="true">🏡</span>
           </h1>
         </div>
+        <Button
+          variant="ghost"
+          size="iconSm"
+          onClick={onCloseMobile}
+          aria-label="Close navigation"
+          className="size-10 shrink-0 lg:hidden"
+        >
+          <X />
+        </Button>
       </div>
       <div className="px-4 pb-3">
         <StatusBadge status={status} />
@@ -81,7 +100,7 @@ export function Sidebar({
                   onClick={() => onSelectChannel(channel.id)}
                   aria-current={active ? 'page' : undefined}
                   className={cn(
-                    'flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm transition-colors',
+                    'flex min-h-11 w-full items-center gap-2 rounded-lg px-2.5 py-2.5 text-sm transition-colors lg:min-h-0 lg:py-1.5',
                     active
                       ? 'bg-stone-900 font-medium text-white dark:bg-stone-100 dark:text-stone-900'
                       : 'text-stone-700 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800',
@@ -165,6 +184,7 @@ export function Sidebar({
             disabled={signingOut}
             title="Sign out"
             aria-label="Sign out"
+            className="size-10 lg:size-8"
           >
             {signingOut ? <Loader2 className="animate-spin" /> : <LogOut />}
           </Button>

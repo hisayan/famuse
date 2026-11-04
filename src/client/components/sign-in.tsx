@@ -82,8 +82,8 @@ export function SignIn({ onSignedIn }: { onSignedIn: () => void }) {
             onClick={() => setMode('signin')}
             className={
               mode === 'signin'
-                ? 'rounded-md bg-white py-1.5 font-medium shadow-sm dark:bg-stone-900'
-                : 'rounded-md py-1.5 text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100'
+                ? 'rounded-md bg-white py-2.5 font-medium shadow-sm sm:py-1.5 dark:bg-stone-900'
+                : 'rounded-md py-2.5 text-stone-500 hover:text-stone-900 sm:py-1.5 dark:text-stone-400 dark:hover:text-stone-100'
             }
           >
             Sign in
@@ -93,8 +93,8 @@ export function SignIn({ onSignedIn }: { onSignedIn: () => void }) {
             onClick={() => setMode('signup')}
             className={
               mode === 'signup'
-                ? 'rounded-md bg-white py-1.5 font-medium shadow-sm dark:bg-stone-900'
-                : 'rounded-md py-1.5 text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100'
+                ? 'rounded-md bg-white py-2.5 font-medium shadow-sm sm:py-1.5 dark:bg-stone-900'
+                : 'rounded-md py-2.5 text-stone-500 hover:text-stone-900 sm:py-1.5 dark:text-stone-400 dark:hover:text-stone-100'
             }
           >
             Create account
@@ -160,7 +160,7 @@ export function SignIn({ onSignedIn }: { onSignedIn: () => void }) {
               type="button"
               disabled={busy !== null}
               onClick={() => handleDemoSignIn(account.email, account.name)}
-              className="flex items-center gap-3 rounded-lg border border-stone-200 px-3 py-2 text-left transition-colors hover:border-stone-400 hover:bg-stone-50 disabled:opacity-60 dark:border-stone-700 dark:hover:border-stone-500 dark:hover:bg-stone-800"
+              className="flex min-h-12 items-center gap-3 rounded-lg border border-stone-200 px-3 py-2.5 text-left transition-colors hover:border-stone-400 hover:bg-stone-50 disabled:opacity-60 dark:border-stone-700 dark:hover:border-stone-500 dark:hover:bg-stone-800"
             >
               <Avatar name={account.name} className="size-9" />
               <span className="min-w-0 flex-1">

@@ -8,7 +8,7 @@ This page is the single source of truth for how tests are organized and run.
 
 | Layer | Tool | What it covers | Status |
 | --- | --- | --- | --- |
-| E2E smoke | Playwright (Chromium) | Demo sign-in, real-time messaging between two members, household task toggling | Active — `e2e/smoke.spec.ts` |
+| E2E smoke | Playwright (Chromium) | Demo sign-in, real-time messaging between two members, household task toggling, mobile drawers + composer | Active — `e2e/smoke.spec.ts`, `e2e/mobile.spec.ts` |
 | Unit | Vitest | Pure logic such as `src/shared/format.ts` | Not set up yet; add only when a pure function gains non-trivial branching |
 | Full E2E coverage | — | Plugins, uploads, AI replies, every channel | Deliberately out of scope: slow and brittle for the value returned |
 
@@ -57,6 +57,18 @@ Notes:
    `Take out the recycling` in the context drawer flips its state, then
    the test restores it. (The UI has no task-creation flow, so creation
    is not covered.)
+
+4. **Navigation drawer opens, switches channel, and closes** (phone
+   viewport, 390×844) — the header menu button slides the sidebar in,
+   picking `#groceries` shows that room and dismisses the drawer.
+5. **Household panel opens and tasks toggle from the phone layout** —
+   the household button slides the context drawer in, the seeded task
+   flips and is restored, then the panel closes.
+6. **Composer sends with no horizontal overflow** — the page fits the
+   390px viewport and a unique message sends from the mobile composer.
+
+Drawer open/closed is asserted by bounding-rect position, not visibility:
+off-canvas panels still count as "visible" to Playwright.
 
 Shared sign-in and live-room waits live in `e2e/helpers.ts`
 (`signInAsDemo`, `waitForLiveRoom`, `sendMessage`). Reuse them instead of

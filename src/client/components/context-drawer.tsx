@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AlertTriangle, Bone, ChefHat, ListChecks, Loader2, PawPrint, Sprout } from 'lucide-react';
+import { AlertTriangle, Bone, ChefHat, ListChecks, Loader2, PawPrint, Sprout, X } from 'lucide-react';
 import type { Household, HouseholdTask } from '../../shared/types';
 import { formatElapsedShort } from '../../shared/format';
 import { cn } from '../lib/cn';
@@ -78,11 +78,15 @@ export function ContextDrawer({
   tasks,
   summaries,
   onTasksChange,
+  mobileOpen = false,
+  onCloseMobile,
 }: {
   household: Household;
   tasks: HouseholdTask[];
   summaries: Record<string, unknown>;
   onTasksChange: (tasks: HouseholdTask[]) => void;
+  mobileOpen?: boolean;
+  onCloseMobile?: () => void;
 }) {
   const [petStatus, setPetStatus] = useState<PetStatusView | null>(null);
   const [petLoading, setPetLoading] = useState(true);
@@ -142,8 +146,22 @@ export function ContextDrawer({
   return (
     <aside
       aria-label="Household context"
-      className="hidden h-full w-80 shrink-0 flex-col gap-3 overflow-y-auto border-l border-stone-200 bg-white p-3 xl:flex dark:border-stone-800 dark:bg-stone-900"
+      className={cn(
+        'fixed inset-y-0 right-0 z-40 flex h-full w-[88vw] max-w-80 shrink-0 flex-col gap-3 overflow-y-auto border-l border-stone-200 bg-white p-3 shadow-xl transition-transform duration-200 xl:static xl:z-auto xl:w-80 xl:max-w-none xl:translate-x-0 xl:shadow-none dark:border-stone-800 dark:bg-stone-900',
+        mobileOpen ? 'translate-x-0' : 'translate-x-full',
+      )}
     >
+      <div className="flex items-center justify-between xl:hidden">
+        <p className="text-sm font-semibold tracking-tight">Household</p>
+        <button
+          type="button"
+          onClick={onCloseMobile}
+          aria-label="Close household panel"
+          className="inline-flex size-10 items-center justify-center rounded-lg text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800"
+        >
+          <X className="size-4" />
+        </button>
+      </div>
       <Card>
         <CardHeader>
           <CardTitle>Buddy · Pet Status</CardTitle>
@@ -219,7 +237,7 @@ export function ContextDrawer({
                 <li key={task.id}>
                   <label
                     className={cn(
-                      'flex cursor-pointer items-start gap-2.5 rounded-lg px-1.5 py-1.5 transition-colors hover:bg-stone-50 dark:hover:bg-stone-800',
+                      'flex min-h-11 cursor-pointer items-start gap-2.5 rounded-lg px-1.5 py-2 transition-colors hover:bg-stone-50 xl:min-h-0 xl:py-1.5 dark:hover:bg-stone-800',
                       togglingId === task.id && 'opacity-60',
                     )}
                   >
@@ -228,7 +246,7 @@ export function ContextDrawer({
                       checked={task.done}
                       disabled={togglingId !== null}
                       onChange={() => toggleTask(task)}
-                      className="mt-1 size-3.5 shrink-0 accent-emerald-700"
+                      className="mt-0.5 size-5 shrink-0 accent-emerald-700 xl:mt-1 xl:size-3.5"
                     />
                     <span className="min-w-0 flex-1">
                       <span

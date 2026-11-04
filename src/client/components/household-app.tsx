@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import type {
   Household,
   HouseholdMember,
@@ -37,6 +37,8 @@ export function HouseholdApp({
     [selfMember],
   );
   const room = useRoom(channelId, self);
+  const [navOpen, setNavOpen] = useState(false);
+  const [contextOpen, setContextOpen] = useState(false);
 
   const onlineIds = useMemo(
     () => new Set(room.online.map((peer) => peer.memberId)),
@@ -55,18 +57,33 @@ export function HouseholdApp({
     room.send(action.actionText, []);
   }
 
+  function handleSelectChannel(nextChannelId: string) {
+    onChannelChange(nextChannelId);
+    setNavOpen(false);
+  }
+
   return (
     <div className="flex h-svh overflow-hidden bg-stone-50 text-stone-900 dark:bg-stone-950 dark:text-stone-100">
+      {navOpen && (
+        <button
+          type="button"
+          aria-label="Close navigation"
+          onClick={() => setNavOpen(false)}
+          className="fixed inset-0 z-30 bg-stone-950/40 lg:hidden"
+        />
+      )}
       <Sidebar
         household={household}
         members={members}
         onlineIds={onlineIds}
         activeChannel={channelId}
-        onSelectChannel={onChannelChange}
+        onSelectChannel={handleSelectChannel}
         status={room.status}
         user={user}
         onSignOut={onSignOut}
         signingOut={signingOut}
+        mobileOpen={navOpen}
+        onCloseMobile={() => setNavOpen(false)}
       />
       <ChannelView
         key={channelId}
@@ -86,12 +103,24 @@ export function HouseholdApp({
         onRequestCatchUp={room.requestCatchUp}
         onDismissCatchUp={room.dismissCatchUp}
         onDismissError={room.dismissError}
+        onOpenNav={() => setNavOpen(true)}
+        onOpenContext={() => setContextOpen(true)}
       />
+      {contextOpen && (
+        <button
+          type="button"
+          aria-label="Close household panel"
+          onClick={() => setContextOpen(false)}
+          className="fixed inset-0 z-30 bg-stone-950/40 xl:hidden"
+        />
+      )}
       <ContextDrawer
         household={household}
         tasks={tasks}
         summaries={room.summaries}
         onTasksChange={onTasksChange}
+        mobileOpen={contextOpen}
+        onCloseMobile={() => setContextOpen(false)}
       />
     </div>
   );

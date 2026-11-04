@@ -14,5 +14,11 @@ export default defineConfig({
     title: 'famuse — Private Family Hub',
     titleTemplate: '%s · famuse',
     htmlAttrs: { lang: 'en' },
+    meta: [
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1, viewport-fit=cover',
+      },
+    ],
   },
 });

@@ -28,7 +28,7 @@ Open `http://localhost:5173` and choose **Continue as Dad** (Mom and Leo work to
 
 ### AI setup (optional, recommended)
 
-Copy `.env.example` to `.env`, create a key in the [Meta Model API dashboard](https://dev.meta.ai), and add it:
+Create a `.env` file at the project root, create a key in the [Meta Model API dashboard](https://dev.meta.ai), and add it:
 
 ```ini
 MODEL_API_KEY=LLM_xxx
@@ -95,7 +95,26 @@ pages/                       loader (auth + household snapshot) + app shell
 | `MODEL_API_MODEL` | `muse-spark-1.3` | Chat model for @famuse |
 | `MODEL_API_TIMEOUT_MS` | `30000` | Outbound AI request budget |
 
-Local values live in `.env` (start from `.env.example`; see `env.ts` for the schema). Production secrets are set with `void secret put`.
+Local values live in a single root `.env` file (Void supports only `.env` —
+`.env.example`, `.env.local`, and other variants stop the dev server with an
+error, so the full template is inlined here instead of a separate file).
+See `env.ts` for the schema. Production secrets are set with `void secret put`.
+
+```ini
+# Meta Model API key from https://dev.meta.ai (dashboard).
+# Optional: without a key, famuse answers with its built-in local
+# assistant so the demo keeps working offline.
+MODEL_API_KEY=
+
+# OpenAI-compatible base URL for the Meta Model API.
+MODEL_API_BASE_URL=https://api.meta.ai/v1
+
+# Chat model for the famuse butler.
+MODEL_API_MODEL=muse-spark-1.3
+
+# Outbound request budget for AI replies inside a room (milliseconds).
+MODEL_API_TIMEOUT_MS=30000
+```
 
 Useful commands:
 
@@ -110,7 +129,8 @@ pnpm run test:e2e       # Playwright smoke tests
 ## Testing
 
 A small Playwright smoke suite covers demo sign-in, real-time messaging
-between two members, and household task toggling:
+between two members, household task toggling, and the phone layout
+(slide-in navigation/household drawers, mobile composer):
 
 ```sh
 pnpm exec playwright install --with-deps chromium  # first time only
