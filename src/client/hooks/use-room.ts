@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'void/ws';
+import { randomId } from '../lib/id';
 import type {
   Attachment,
   ChatMessage,
@@ -212,7 +213,7 @@ export function useRoom(channelId: string, self: RoomSelf | null): UseRoomResult
       if (!socket || !currentSelf) return;
       const trimmed = text.trim();
       if (!trimmed && attachments.length === 0) return;
-      const id = crypto.randomUUID();
+      const id = randomId();
       const outgoing: ClientRoomEvent = {
         type: 'room.message.send',
         id,

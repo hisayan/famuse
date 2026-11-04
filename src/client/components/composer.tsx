@@ -3,6 +3,7 @@ import { AtSign, ImagePlus, Loader2, Send, X } from 'lucide-react';
 import type { Attachment } from '../../shared/types';
 import { MAX_ATTACHMENT_BYTES } from '../../shared/room-events';
 import { cn } from '../lib/cn';
+import { randomId } from '../lib/id';
 import { Avatar, Button } from './ui';
 
 const MAX_COMPOSER_HEIGHT = 160;
@@ -112,7 +113,7 @@ export function Composer({
         setUploadError('Images must be smaller than 5 MB.');
         continue;
       }
-      const clientId = crypto.randomUUID();
+      const clientId = randomId();
       const previewUrl = URL.createObjectURL(file);
       setUploads((current) => [...current, { clientId, name: file.name, previewUrl }]);
       try {
